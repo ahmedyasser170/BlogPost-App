@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header('A post')" />
+<body>
+<div id="root">
+    <div th:replace="fragments/nav :: nav"></div>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <h1>My blog</h1>
+                <ul>
+                    <li v-if="post">
+                        <h3>{{post.title}}</h3>
+                        <h6>Created by : {{post.creator.userName}}</h6>
+                        <p>{{post.body}}</p>
+                        <hr />
+                    </li>
+                </ul>
+                <div class="comments">
+                    <h2>Comments</h2>
+                    <ul>
+                        <li v-for="comment in comments">
+                            <h6>Posted by : <b>{{comment.creator.userName}}</b></h6>
+                            <p>{{comment.text}}</p>
+                        </li>
+                    </ul>
+                </div>
+                <div v-if="isLoggedIn()">
+                    <label for="comment">Add a Comment</label>
+                    <textarea v-model="commentText" class="u-full-width" placeholder="Comment.." id="comment"></textarea>
+                    <input class="u-full-width button-primary" type="submit" v-on:click="doComment" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer :: foot"></div>
+
+<script>
+    var app = new Vue({
+        el: '#root',
+        data : {post: null, commentText: '', comments: []},
+        created(){
+            this.fetchPosts();
+            this.fetchComments();
+        },
+        methods: {
+            fetchPosts(){
+                axios.get("/the_post/" + this.getPostId()).then(function(response){
+                    this.post = response.data;
+                }.bind(this));
+            },
+            isLoggedIn(){
+                return window.Event.isLoggedIn;
+            },
+            doComment(){
+             var cookie1=getCookie("access_token");
+                var config = { headers: { Authorization: `Bearer ${cookie1}` }};
+                axios.post("comment",
+                {text:this.commentText,postId:this.post.id},
+                config)
+                .then(function(response){
+                    this.fetchComments();
+                }.bind(this));
+            },
+            fetchComments(){
+                axios.get("/the_post/" + this.getPostId()+"/comments").then(function(response){
+                    this.comments = response.data;
+                }.bind(this));
+            },
+            getPostId(){
+                var splitted = window.location.href.split('/');
+                return splitted[splitted.length-1];
+            }
+        }
+
+    });
+</script>
+</html>
