@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.BlogPostApp.model.Role;
 import com.example.BlogPostApp.model.User;
+import com.example.BlogPostApp.pojos.*;
 import com.example.BlogPostApp.service.UserServiceImpl;
 import com.example.BlogPostApp.utils.JwtUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
+
     @PostMapping("/getUserName")
     public String getUserName(HttpServletRequest request) {
         String username=SecurityContextHolder.getContext().getAuthentication().getName();
@@ -87,14 +89,11 @@ public class UserController {
         } else {
             throw new RuntimeException("Refresh Token is missing");
         }
+
     }
 
 
 
 }
 
-@Data
-class RoleToUserForm{
-    private String username;
-    private String roleName;
-}
+

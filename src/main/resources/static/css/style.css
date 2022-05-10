@@ -31,3 +31,6 @@ li {
     background: rgba(0, 0, 0, 0.02);
     border-radius: 10px 10px 10px 10px;
 }
+.logoutbold {
+color:red;
+}
