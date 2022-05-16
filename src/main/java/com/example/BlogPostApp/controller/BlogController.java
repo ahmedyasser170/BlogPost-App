@@ -41,7 +41,7 @@ public class BlogController {
             post.setDateCreated(new Date());
         String userName=SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         post.setCreator(userService.getUser(userName));
-        URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
+        URI uri=URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/post/save").toUriString());
         return ResponseEntity.created(uri).body(postService.savePost(post));
     }
     @GetMapping(value="/posts/{username}")
@@ -61,7 +61,6 @@ public class BlogController {
     @PostMapping("/post/comment")
     public Comment CommentBypostId(@RequestBody CommentPojo commentPojo)
     {
-
         Post post = postService.findById(commentPojo.getPostId());
         String userName=SecurityContextHolder.getContext().getAuthentication().getName();
         User user=userService.getUser(userName);

@@ -117,4 +117,52 @@ public class UserControllerTest {
         MvcResult result=mockMvc.perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
     }
+    @Test
+    @WithMockUser(username = "ahmed12",password = "sdsds",authorities = {"user"})
+    void shouldReturnListOfUsersForbidden() throws Exception {
+        User user=new User("ahmed","a1","test"
+                ,"email",new ArrayList<>(Arrays.asList(new Role("user"))));
+        User user1=new User("mohamed","a1","test"
+                ,"email",new ArrayList<>(Arrays.asList(new Role("user"))));
+
+        Mockito.when(userService.getUsers()).thenReturn(List.of(user,user1));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/users").accept(MediaType.APPLICATION_JSON);
+        MvcResult result=mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn();
+    }
+    @Test
+    @WithMockUser(username = "ahmed15",password = "sdsds",authorities = {"user"})
+    void shouldAddRoleForbiddenRequest() throws Exception {
+        RoleToUserForm roleToUserForm=new RoleToUserForm();
+        roleToUserForm.setRoleName("admin2");
+        roleToUserForm.setUsername("ahmed");
+        Mockito.doNothing().when(userService).addRoleToUser(Mockito.anyString(),Mockito.anyString());
+        gson=new Gson();
+        String bodyContent=gson.toJson(roleToUserForm);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/role/save").content(bodyContent)
+                .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result=mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn();
+    }
+    @Test
+    @WithMockUser(username = "ahmed15",password = "sdsds",authorities = {"user"})
+    void shouldSaveUserForbidden() throws Exception {
+        User user=new User("ahmed","a1","test"
+                ,"email",new ArrayList<>(Arrays.asList(new Role("user"))));
+
+        Mockito.when(userService.getUser(Mockito.anyString()))
+                .thenReturn(null);
+        Mockito.when(userService.saveUser(user))
+                .thenReturn(user);
+        gson=new Gson();
+        String bodyContent=gson.toJson(user);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/user/save").content(bodyContent)
+                .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result=mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn();
+
+    }
 }

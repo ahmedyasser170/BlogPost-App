@@ -25,8 +25,15 @@ public class Post {
     private User creator;
 
 
-
     public Post() {
+    }
+
+    public Post(String title, String body, Date dateCreated, boolean premium, User creator) {
+        this.title = title;
+        this.body = body;
+        this.dateCreated = dateCreated;
+        this.premium = premium;
+        this.creator = creator;
     }
 
     public Long getId() {
