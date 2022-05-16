@@ -12,6 +12,9 @@ target/
 .settings
 .springBeans
 .sts4-cache
+hs_err_pid6564.log
+replay_pid6564.log
+hs_err_pid14812.log
 
 ### IntelliJ IDEA ###
 .idea

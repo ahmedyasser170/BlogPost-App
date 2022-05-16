@@ -6,6 +6,7 @@ import com.example.BlogPostApp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration @EnableWebSecurity
@@ -37,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/login/**","/api/token/refresh/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users/**").hasAnyAuthority("user","admin");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users/**").hasAnyAuthority("admin");
         http.authorizeRequests().antMatchers("/").hasAnyAuthority("admin");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/posts").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/home").permitAll();
@@ -48,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/favicon.ico").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/favicon.ico").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/post/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/post/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/post/**").hasAnyAuthority("admin");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/the_post/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAutenticationFilter);

@@ -1,6 +1,7 @@
 package com.example.BlogPostApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,12 +11,12 @@ import java.util.Collection;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String name;
-    private String userName;
+    @Expose private Long id;
+    @Expose private String name;
+    @Expose private String userName;
     @JsonIgnore
     private String password;
-    private String eMail;
+    @Expose private String eMail;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Role> roles =new ArrayList<>();
