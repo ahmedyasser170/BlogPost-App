@@ -25,9 +25,9 @@ import java.util.List;
 @RestController
 public class BlogController {
     @Autowired
-    PostServiceImpl postService;
+    PostService postService;
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
     @Autowired
     CommentService commentService;
 

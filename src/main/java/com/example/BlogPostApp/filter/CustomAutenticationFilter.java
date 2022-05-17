@@ -47,12 +47,9 @@ public class CustomAutenticationFilter extends UsernamePasswordAuthenticationFil
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         User user=(User) authResult.getPrincipal();
         log.info("user is {} ",user.toString());
-        Algorithm algorithm=JwtUtility.generateAlgorithm();
-        String access_token= JwtUtility.generateAccessToken(user,request,algorithm);
-        String refresh_token= JwtUtility.generateRefreshToken(user,request,algorithm);
-        Map<String,String> map = new HashMap<>();
-        map.put("access_token",access_token);
-        map.put("refresh_token",refresh_token);
+        String access_token= JwtUtility.generateAccessToken(user,request);
+        String refresh_token= JwtUtility.generateRefreshToken(user,request);
+        Map<String,String> map =JwtUtility.generateMap(refresh_token,access_token);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),map);
 

@@ -66,14 +66,10 @@ public class UserController {
         if(authoriztionHeader!=null && authoriztionHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token=authoriztionHeader.substring("Bearer ".length());
-                Algorithm algorithm= JwtUtility.generateAlgorithm();
-                DecodedJWT decodedJWT=JwtUtility.generateDecodeJwt(algorithm,refresh_token);
-                String userName=decodedJWT.getSubject();
+                String userName=JwtUtility.getUserName(refresh_token);
                 User user=userService.getUser(userName);
-                String access_token= JwtUtility.generateAccessToken(user,request,algorithm);
-                Map<String,String> map = new HashMap<>();
-                map.put("access_token",access_token);
-                map.put("refresh_token",refresh_token);
+                String access_token= JwtUtility.generateAccessToken(user,request);
+                Map<String,String> map = JwtUtility.generateMap(refresh_token,access_token);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(),map);
 
