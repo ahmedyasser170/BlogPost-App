@@ -1,7 +1,6 @@
 package com.example.BlogPostApp.service;
 
 import com.example.BlogPostApp.model.Comment;
-import com.example.BlogPostApp.model.Post;
 
 import java.util.List;
 

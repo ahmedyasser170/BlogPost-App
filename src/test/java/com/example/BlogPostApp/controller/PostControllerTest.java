@@ -4,7 +4,6 @@ import com.example.BlogPostApp.model.Comment;
 import com.example.BlogPostApp.model.Post;
 import com.example.BlogPostApp.model.Role;
 import com.example.BlogPostApp.model.User;
-import com.example.BlogPostApp.pojos.CommentPojo;
 import com.example.BlogPostApp.service.CommentServiceImpl;
 import com.example.BlogPostApp.service.PostServiceImpl;
 import com.example.BlogPostApp.service.UserServiceImpl;
@@ -25,7 +24,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

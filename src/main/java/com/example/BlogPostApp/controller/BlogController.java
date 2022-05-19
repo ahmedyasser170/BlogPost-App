@@ -1,26 +1,19 @@
 package com.example.BlogPostApp.controller;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.BlogPostApp.model.Comment;
 import com.example.BlogPostApp.model.Post;
 import com.example.BlogPostApp.model.User;
 import com.example.BlogPostApp.pojos.CommentPojo;
 import com.example.BlogPostApp.service.*;
-import com.example.BlogPostApp.utils.JwtUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+
 @Slf4j
 @RestController
 public class BlogController {
